@@ -1,30 +1,26 @@
 const express = require('express')
-
-const dish = require('./usecases/dishes')
+const cors = require('cors')
 
 const app = express()
 
+const dishesRoutes = require('./routes/dishes')
+const ordersRoutes = require('./routes/orders')
+const authRoutes = require('./routes/auth')
+const userRoutes = require('./routes/users')
+
+app.use(cors())
+app.use(express.json())
+
+app.use('/dishes', dishesRoutes)
+app.use('/orders', ordersRoutes)
+app.use('/auth', authRoutes)
+app.use('/users', userRoutes)
+
 app.get('/', (req, res) => {
-  orders.get()
   res.json({
     success: true,
     message: 'FondAPI running'
   })
-})
-
-app.get('/dishes', async (req, res) => {
-  const dishes = await dish.get()
-  res.json({
-    success: true,
-    message: 'Done!',
-    payload: {
-      dishes
-    }
-  })
-})
-
-app.post('/dishes', async (req, res) => {
-  // TODO: implementar [ TAREA ]
 })
 
 module.exports = app
